@@ -117,12 +117,12 @@ XPMPMultiplayerCleanup()
     Renderer_Detach_Callbacks();
 }
 
-static void MPPlanesAcquired(void *refcon)
+static void MPPlanesAcquired(void * /*refcon*/)
 {
     TCAS::EnableHooks();
 }
 
-static void MPPlanesReleased(void *refcon)
+static void MPPlanesReleased(void * /*refcon*/)
 {
     TCAS::DisableHooks();
 }
@@ -272,7 +272,7 @@ void
 XPMPDestroyPlane(XPMPPlaneID inID)
 {
     XPMPPlaneMap::iterator iter;
-    XPMPPlanePtr plane = XPMPPlaneFromID(inID, &iter);
+    XPMPPlaneFromID(inID, &iter);
 
     gPlanes.erase(iter);
     if (gPlanes.size() == 0) {
@@ -359,7 +359,7 @@ XPMPUpdatePlanes(
 {
     auto *ptr = reinterpret_cast<uint8_t *>(inUpdates);
 
-    for (int idx = 0; idx < inCount; idx++) {
+    for (size_t idx = 0; idx < inCount; idx++) {
         auto *thisUpdate = reinterpret_cast<XPMPUpdate_t *>(ptr + (idx *
                                                                    inUpdateSize));
 

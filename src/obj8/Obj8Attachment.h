@@ -51,14 +51,10 @@ public:
 
 	Obj8Attachment(Obj8Attachment &&moveSrc) noexcept:
             mFile(std::move(moveSrc.mFile)),
-            mHandle(nullptr),
-            mLoadState(Obj8LoadState::None)
+            mHandle(moveSrc.mHandle),
+            mLoadState(moveSrc.mLoadState)
     {
-        mHandle = moveSrc.mHandle;
-        moveSrc.mHandle = nullptr;
-
-        mLoadState = moveSrc.mLoadState;
-        moveSrc.mLoadState = Obj8LoadState::None;
+        moveSrc.reset();
     }
 
 	virtual ~Obj8Attachment();
@@ -102,6 +98,11 @@ private:
     static void	loadCallback(XPLMObjectRef inObject, void *inRefcon);
     static std::queue<Obj8Attachment *>	loadQueue;
     void enqueueLoad();
+    void reset() {
+        mFile = {};
+        mHandle = nullptr;
+        mLoadState = Obj8LoadState::None;
+    }
 };
 
 #endif //OBJ8ATTACHMENT_H

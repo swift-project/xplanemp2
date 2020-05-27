@@ -23,13 +23,13 @@ struct CFSmartPtr {
 int Posix2HFSPath(const char *path, char *result, int resultLen)
 {
 	CFSmartPtr<CFStringRef>		inStr(CFStringCreateWithCString(kCFAllocatorDefault, path ,kCFStringEncodingMacRoman));
-	if (inStr == NULL) return -1;
+	if (inStr == nullptr) return -1;
 
 	CFSmartPtr<CFURLRef>		url(CFURLCreateWithFileSystemPath(kCFAllocatorDefault, inStr, kCFURLPOSIXPathStyle,0));
-	if (url == NULL) return -1;
+	if (url == nullptr) return -1;
 
 	CFSmartPtr<CFStringRef>		outStr(CFURLCopyFileSystemPath(url, kCFURLHFSPathStyle));
-	if (outStr == NULL) return -1;
+	if (outStr == nullptr) return -1;
 
 	if (!CFStringGetCString(outStr, result, resultLen, kCFStringEncodingMacRoman))
 		return -1;
@@ -42,13 +42,13 @@ int HFS2PosixPath(const char *path, char *result, int resultLen)
 	bool is_dir = (path[strlen(path)-1] == ':');
 
 	CFSmartPtr<CFStringRef>		inStr(CFStringCreateWithCString(kCFAllocatorDefault, path ,kCFStringEncodingMacRoman));
-	if (inStr == NULL) return -1;
+	if (inStr == nullptr) return -1;
 
 	CFSmartPtr<CFURLRef>		url(CFURLCreateWithFileSystemPath(kCFAllocatorDefault, inStr, kCFURLHFSPathStyle,0));
-	if (url == NULL) return -1;
+	if (url == nullptr) return -1;
 
 	CFSmartPtr<CFStringRef>		outStr(CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle));
-	if (outStr == NULL) return -1;
+	if (outStr == nullptr) return -1;
 
 	if (!CFStringGetCString(outStr, result, resultLen, kCFStringEncodingMacRoman))
 		return -1;

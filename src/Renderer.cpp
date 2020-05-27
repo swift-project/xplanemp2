@@ -96,7 +96,7 @@ Render_PrepLists()
     XPLMReadCameraPosition(&x_camera);    // only for zoom!
 
     // Culling - read the camera pos and figure out what's visible.
-    double maxDist = XPLMGetDataf(gVisDataRef);
+    //double maxDist = XPLMGetDataf(gVisDataRef);
     Render_FullPlaneDistance = x_camera.zoom * (5280.0 / 3.2) *
                                gConfiguration.maxFullAircraftRenderingDistance;    // Only draw planes fully within 3 miles.
 
@@ -115,13 +115,11 @@ Render_PrepLists()
  * with bad hacks to maintain compatibility with FSAA
  */
 
-static int rendLastCycle = -1;
-
 float
-XPMP_PrepListHook(float inElapsedSinceLastCall,
-                  float inElapsedTimeSinceLastFlightLoop,
-                  int inCounter,
-                  void *inRefcon)
+XPMP_PrepListHook(float /*inElapsedSinceLastCall*/,
+                  float /*inElapsedTimeSinceLastFlightLoop*/,
+                  int /*inCounter*/,
+                  void * /*inRefcon*/)
 {
     Render_PrepLists();
 

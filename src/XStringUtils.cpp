@@ -39,10 +39,10 @@ namespace xpmp {
 		if (delim.empty() || n == 1)
 		{
 			result.emplace_back(std::move(dup));
-			return std::move(result);
+			return result;
 		}
 
-		if (dup.empty()) return std::move(result);
+		if (dup.empty()) return result;
 
 		while (true)
 		{
@@ -55,12 +55,12 @@ namespace xpmp {
 			}
 
 			// Nothing remaining
-			if (position == string::npos) return std::move(result);
+			if (position == string::npos) return result;
 
 			dup = dup.substr(position + 1);
-			if (n > 0 && result.size() >= (n-1)) {
+			if (n > 0 && static_cast<int>(result.size()) >= (n-1)) {
 			    result.emplace_back(std::move(dup));
-			    return std::move(result);
+			    return result;
 			}
 		}
 	}

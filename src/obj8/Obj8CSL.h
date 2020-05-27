@@ -36,11 +36,23 @@
 #include "Obj8Common.h"
 #include "Obj8Attachment.h"
 
+#if defined(__GNUC__) && __GNUC__ < 6
+struct Obj8DrawTypeHash {
+    auto operator()(Obj8DrawType dt) const noexcept
+    {
+        using type = std::underlying_type<Obj8DrawType>::type;
+        return std::hash<type>{}(static_cast<type>(dt));
+    }
+};
+#else
+using Obj8DrawTypeHash = std::hash<Obj8DrawType>;
+#endif
+
 class Obj8CSL: public CSL {
 public:
     using attachment_pointer = std::shared_ptr<Obj8Attachment>;
     using attachment_array = std::vector<attachment_pointer>;
-    using attachment_map = std::unordered_map<Obj8DrawType, attachment_array>;
+    using attachment_map = std::unordered_map<Obj8DrawType, attachment_array, Obj8DrawTypeHash>;
 
     void newInstanceData(CSLInstanceData *&newInstanceData) const override;
 

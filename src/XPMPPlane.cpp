@@ -43,6 +43,7 @@ using namespace std;
 XPMPPlane::XPMPPlane() :
 	mPlaneType("", "", ""),
 	mCSL(nullptr),
+	mMatchQuality(0),
 	mInstanceData(nullptr)
 {
 }
@@ -142,7 +143,8 @@ XPMPPlane::doInstanceUpdate(const CullInfo &gl_camera)
 		}
 		if (mInstanceData->mTCAS) {
 			// populate the global TCAS list
-			TCAS::addPlane(mInstanceData->mDistanceSqr, lx, ly, lz, mSurveillance.mode != xpmpTransponderMode_Mode3A);
+			TCAS::addPlane(mInstanceData->mDistanceSqr, static_cast<float>(lx), static_cast<float>(ly), static_cast<float>(lz),
+				mSurveillance.mode != xpmpTransponderMode_Mode3A);
 		}
 
 		// do labels.

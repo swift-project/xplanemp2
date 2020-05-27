@@ -24,13 +24,9 @@
 #include "MapRendering.h"
 #include "XPMPMultiplayerVars.h"
 #include <cmath>
-
-#ifndef M_PI
-#warning M_PI is not being defiend by your cmath header.  Fix your compiler defines.
-#define M_PI 3.141592653589793
-#endif
-
 #include <cstring>
+
+constexpr static float pi = 3.141593f;
 
 /* map layers */
 XPLMMapLayerID XPMPMapRendering::gAircraftLayers[ML_COUNT] = {
@@ -73,7 +69,7 @@ XPMPMapRendering::Shutdown()
 }
 
 void
-XPMPMapRendering::MapCreatedCallback(const char *mapIdentifier, void *refcon)
+XPMPMapRendering::MapCreatedCallback(const char *mapIdentifier, void * /*refcon*/)
 {
     if (!strcmp(mapIdentifier, XPLM_MAP_USER_INTERFACE)) {
         tryCreateMapLayers(mapIdentifier, ML_UserInterface);
@@ -121,12 +117,12 @@ XPMPMapRendering::tryCreateMapLayers(const char *mapIdentifier, int position)
 
 void
 XPMPMapRendering::IconCallback(XPLMMapLayerID inLayer,
-                               const float *inMapBoundsLeftTopRightBottom,
-                               float zoomRatio,
+                               const float * /*inMapBoundsLeftTopRightBottom*/,
+                               float /*zoomRatio*/,
                                float mapUnitsPerUserInterfaceUnit,
-                               XPLMMapStyle mapStyle,
+                               XPLMMapStyle /*mapStyle*/,
                                XPLMMapProjectionID projection,
-                               void *inRefcon)
+                               void * /*inRefcon*/)
 {
     if (gMapSheetPath.empty()) {
         return;
@@ -159,11 +155,11 @@ XPMPMapRendering::IconCallback(XPLMMapLayerID inLayer,
 void
 XPMPMapRendering::LabelCallback(XPLMMapLayerID inLayer,
                                 const float *inMapBoundsLeftTopRightBottom,
-                                float zoomRatio,
+                                float /*zoomRatio*/,
                                 float mapUnitsPerUserInterfaceUnit,
-                                XPLMMapStyle mapStyle,
+                                XPLMMapStyle /*mapStyle*/,
                                 XPLMMapProjectionID projection,
-                                void *inRefcon)
+                                void * /*inRefcon*/)
 {
     float offsetX = 0.0f;
     float offsetY = 0.0f;
@@ -177,9 +173,9 @@ XPMPMapRendering::LabelCallback(XPLMMapLayerID inLayer,
         const float linearOffset = -(gIconScale * mapUnitsPerUserInterfaceUnit);
         // rotation needs to be in radians for the sin/cos
         const float rotation =
-            XPLMMapGetNorthHeading(projection, midX, midY) * M_PI / 180.0;
-        offsetX = static_cast<float>(-sin(rotation) * linearOffset);
-        offsetY = static_cast<float>(cos(rotation) * linearOffset);
+            XPLMMapGetNorthHeading(projection, midX, midY) * pi / 180.0f;
+        offsetX = -sin(rotation) * linearOffset;
+        offsetY = cos(rotation) * linearOffset;
     }
 
     for (const auto &aircraftPair: gPlanes) {

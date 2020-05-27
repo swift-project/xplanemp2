@@ -75,12 +75,12 @@ Obj8InstanceData::updateInstance(
     XPLMDrawInfo_t objPosition = {};
 
     objPosition.structSize = sizeof(objPosition);
-    objPosition.x = x;
-    objPosition.y = y;
-    objPosition.z = z;
-    objPosition.heading = heading;
-    objPosition.pitch = pitch;
-    objPosition.roll = roll;
+    objPosition.x = static_cast<float>(x);
+    objPosition.y = static_cast<float>(y);
+    objPosition.z = static_cast<float>(z);
+    objPosition.heading = static_cast<float>(heading);
+    objPosition.pitch = static_cast<float>(pitch);
+    objPosition.roll = static_cast<float>(roll);
 
     // these must be in the same order as defined by dref_names
     float dataRefValues[] = {
