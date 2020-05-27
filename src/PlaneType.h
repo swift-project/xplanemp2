@@ -50,7 +50,7 @@ public:
 	bool compare(const PlaneType &other, PlaneTypeMask mask=Mask_ICAO|Mask_Airline|Mask_Livery) const;
 	bool operator==(const PlaneType &other) const;
 	bool operator!=(const PlaneType &other) const;
-	void operator=(const PlaneType &other);
+	PlaneType &operator=(const PlaneType &other);
 
 
 	std::string toLongString() const;

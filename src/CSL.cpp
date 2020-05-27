@@ -109,20 +109,20 @@ CSL::getMovingGear() const
 }
 
 void
-CSL::setICAO(std::string icaoCode)
+CSL::setICAO(const std::string &icaoCode)
 {
 	mICAO = icaoCode;
 }
 
 void
-CSL::setAirline(std::string icaoCode, std::string airline)
+CSL::setAirline(const std::string &icaoCode, const std::string &airline)
 {
 	setICAO(icaoCode);
 	mAirline = airline;
 }
 
 void
-CSL::setLivery(std::string icaoCode, std::string airline, std::string livery)
+CSL::setLivery(const std::string &icaoCode, const std::string &airline, const std::string &livery)
 {
 	setAirline(icaoCode, airline);
 	mLivery = livery;
@@ -149,7 +149,7 @@ CSL::isUsable() const {
 }
 
 void
-CSL::drawPlane(CSLInstanceData *instanceData, bool is_blend, int data) const
+CSL::drawPlane(CSLInstanceData * /*instanceData*/, bool /*is_blend*/, int /*data*/) const
 {
 }
 
@@ -174,10 +174,8 @@ CSL::updateInstance(const CullInfo &cullInfo,
 		return;
 	}
 
-	double appliedOffset = 0.0;
 	if (offsetScale >= 0.0) {
-        appliedOffset = offsetScale*getVertOffset();
-	    y += appliedOffset;
+	    y += offsetScale*getVertOffset();
 	}
 
 	// clamp to the surface if enabled
@@ -185,9 +183,10 @@ CSL::updateInstance(const CullInfo &cullInfo,
 		XPLMProbeInfo_t	probeResult = {
 			sizeof(XPLMProbeInfo_t),
 		};
-		XPLMProbeResult r = XPLMProbeTerrainXYZ(gTerrainProbe, x, y, z, &probeResult);
+		XPLMProbeResult r = XPLMProbeTerrainXYZ(gTerrainProbe,
+			static_cast<float>(x), static_cast<float>(y), static_cast<float>(z), &probeResult);
 		if (r == xplm_ProbeHitTerrain) {
-			float minY = probeResult.locationY + getVertOffset();
+			double minY = probeResult.locationY + getVertOffset();
 			if (y < minY) {
 				y = minY;
 				instanceData->mClamped = true;
@@ -199,7 +198,8 @@ CSL::updateInstance(const CullInfo &cullInfo,
 	    instanceData->mClamped = false;
 	}
 
-	instanceData->mDistanceSqr = cullInfo.SphereDistanceSqr(x, y, z);
+	instanceData->mDistanceSqr = cullInfo.SphereDistanceSqr(
+		static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
 
 	// TCAS checks.
 	instanceData->mTCAS = true;

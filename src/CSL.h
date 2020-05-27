@@ -153,13 +153,13 @@ public:
      */
     virtual bool isUsable() const;
 
-    void setICAO(std::string icaoCode);
+    void setICAO(const std::string &icaoCode);
 
-    void setAirline(std::string icaoCode, std::string airline);
+    void setAirline(const std::string &icaoCode, const std::string &airline);
 
-    void setLivery(std::string icaoCode,
-                   std::string airline,
-                   std::string livery);
+    void setLivery(const std::string &icaoCode,
+                   const std::string &airline,
+                   const std::string &livery);
 
     std::string getICAO() const;
 

@@ -59,8 +59,6 @@ PlaneType::PlaneType(PlaneType &&moveSrc) :
 bool
 PlaneType::compare(const PlaneType &other, PlaneTypeMask mask) const
 {
-	bool 	matches = true;
-
 	if (mask & Mask_ICAO) {
 		if (other.mICAO != mICAO) {
 			return false;
@@ -91,12 +89,13 @@ PlaneType::operator!=(const PlaneType &other) const
 	return !compare(other, Mask_All);
 }
 
-void
+PlaneType &
 PlaneType::operator=(const PlaneType &other)
 {
 	mICAO = other.mICAO;
 	mAirline = other.mAirline;
 	mLivery = other.mLivery;
+	return *this;
 }
 
 

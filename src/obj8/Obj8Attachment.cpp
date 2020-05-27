@@ -46,8 +46,7 @@ Obj8Attachment::loadCallback(XPLMObjectRef inObject, void *inRefcon)
     }
 
     if (!loadQueue.empty()) {
-        Obj8Attachment *nextAtt = nullptr;
-        nextAtt = loadQueue.front();
+        Obj8Attachment *nextAtt = loadQueue.front();
         loadQueue.pop();
         if (nextAtt) {
             XPLMLoadObjectAsync(nextAtt->mFile.c_str(), &Obj8Attachment::loadCallback, reinterpret_cast<void *>(nextAtt));

@@ -5,6 +5,8 @@
 #ifndef XPMP_PLANESHANDOFF_H
 #define XPMP_PLANESHANDOFF_H
 
+#include <XPLMDefs.h>
+
 #ifndef XPMP_CLIENT_NAME
 #define XPMP_CLIENT_NAME "AClient"
 #endif

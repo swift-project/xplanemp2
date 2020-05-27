@@ -21,12 +21,14 @@
  *
  */
 
+#include "PlanesHandoff.h"
+
 #include <XPLMDataAccess.h>
 #include <XPLMPlanes.h>
 #include <XPLMUtilities.h>
 #include <XPLMPlugin.h>
 
-#include "PlanesHandoff.h"
+#include <stddef.h>
 
 /* forward declarations of our callbacks */
 static void
@@ -165,6 +167,7 @@ Planes_SafeRelease(void)
 static void
 wantplanes_dref_updated(void *inRefcon)
 {
+    (void)inRefcon;
     XPLMPluginID desiredPlugin = (XPLMPluginID)XPLMGetDatai(gWantPlanesDref);
     if (planes_amIActive()) {
         /* if we are in control, and the ID changes to somebody else, we need
@@ -187,6 +190,7 @@ wantplanes_dref_updated(void *inRefcon)
 static void
 planes_became_available(void *inRefcon)
 {
+    (void)inRefcon;
     XPLMPluginID desiredPlugin = (XPLMPluginID)XPLMGetDatai(gWantPlanesDref);
     if (gWantToAcquire && (desiredPlugin == XPLM_NO_PLUGIN_ID || desiredPlugin == XPLMGetMyID())) {
         int result = XPLMAcquirePlanes(NULL, planes_became_available, NULL);

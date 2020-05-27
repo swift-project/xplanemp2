@@ -58,7 +58,7 @@ namespace xpmp {
 			if (position == string::npos) return std::move(result);
 
 			dup = dup.substr(position + 1);
-			if (n > 0 && result.size() >= (n-1)) {
+			if (n > 0 && static_cast<int>(result.size()) >= (n-1)) {
 			    result.emplace_back(std::move(dup));
 			    return std::move(result);
 			}

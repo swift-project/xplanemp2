@@ -148,7 +148,7 @@ ParseDependencyCommand(
 
 static bool
 ParseAircraftCommand(
-	const std::vector<std::string> &tokens, CSLPackage_t &package, const string &path, int lineNum, const string &line)
+	const std::vector<std::string> &/*tokens*/, CSLPackage_t &/*package*/, const string &path, int lineNum, const string &line)
 {
 	XPLMDump(path, lineNum, line) << XPMP_CLIENT_NAME " ERROR: Encountered legacy AIRCRAFT directive - ACF CSLs are not supported anymore.\n";
 	return false;
@@ -156,7 +156,7 @@ ParseAircraftCommand(
 
 static bool
 ParseObjectCommand(
-	const std::vector<std::string> &tokens, CSLPackage_t &package, const string &path, int lineNum, const string &line)
+	const std::vector<std::string> &/*tokens*/, CSLPackage_t &/*package*/, const string &path, int lineNum, const string &line)
 {
 	XPLMDump(path, lineNum, line) << XPMP_CLIENT_NAME " ERROR: Encountered legacy OBJECT directive - Legacy (OBJ7) CSLs are not supported anymore.\n";
 	return false;
@@ -164,7 +164,7 @@ ParseObjectCommand(
 
 static bool
 ParseTextureCommand(
-	const std::vector<std::string> &tokens, CSLPackage_t &package, const string &path, int lineNum, const string &line)
+	const std::vector<std::string> &/*tokens*/, CSLPackage_t &/*package*/, const string &path, int lineNum, const string &line)
 {
 	XPLMDump(path, lineNum, line) << XPMP_CLIENT_NAME " ERROR: Encountered legacy TEXTURE directive - Legacy (OBJ7) CSLs are not supported anymore.\n";
 	return false;
@@ -200,10 +200,10 @@ ParseObj8Command(
 		if (tokens.size() < 4)
 			return false;
 	}
-	auto *myCSL = dynamic_cast<Obj8CSL *>(package.planes.back());
+	Obj8CSL *myCSL = nullptr;
 
 	// err - obj8 record at stupid place in file
-	if (package.planes.empty() || myCSL == nullptr) {
+	if (package.planes.empty() || !(myCSL = dynamic_cast<Obj8CSL *>(package.planes.back()))) {
 		XPLMDump(path, lineNum, line) << XPMP_CLIENT_NAME " ERROR: Got OBJ8 command outside of plane definition\n";
 		return false;
 	}
@@ -792,7 +792,7 @@ CSL_MatchPlane(const PlaneType &type,int *match_quality, bool allow_default)
 	if (gConfiguration.debug.modelMatching) {
 		XPLMDebugString(XPMP_CLIENT_NAME " MATCH - No match.\n");
 	}
-	if (NULL != match_quality) {
+	if (match_quality) {
 		*match_quality = -1;
 	}
 

@@ -138,7 +138,7 @@ TCAS::EnableHooks()
 {
 	if (!gTCASHooksRegistered) {
 		XPLMRegisterDrawCallback(
-			&TCAS::ControlPlaneCount, xplm_Phase_Gauges, 0, /* after*/ 0 /* hide planes*/);
+			&TCAS::ControlPlaneCount, xplm_Phase_Gauges, 0, /* after*/ nullptr /* hide planes*/);
 		XPLMRegisterDrawCallback(
 			&TCAS::ControlPlaneCount, xplm_Phase_Gauges, 1, /* before */ (void *) -1 /* show planes*/);
 		gTCASHooksRegistered = true;
@@ -149,7 +149,7 @@ void
 TCAS::DisableHooks()
 {
 	if (gTCASHooksRegistered) {
-		XPLMUnregisterDrawCallback(&TCAS::ControlPlaneCount, xplm_Phase_Gauges, 0, 0);
+		XPLMUnregisterDrawCallback(&TCAS::ControlPlaneCount, xplm_Phase_Gauges, 0, nullptr);
 		XPLMUnregisterDrawCallback(&TCAS::ControlPlaneCount, xplm_Phase_Gauges, 1, (void *) -1);
 		gTCASHooksRegistered = false;
 	}
@@ -164,7 +164,7 @@ TCAS::cleanFrame()
 }
 
 void
-TCAS::addPlane(float distanceSqr, float x, float y, float z, bool isReportingAltitude)
+TCAS::addPlane(float distanceSqr, float x, float y, float z, bool /*isReportingAltitude*/)
 {
 	gTCASPlanes.emplace( distanceSqr, plane_record{x, y, z} );
 }

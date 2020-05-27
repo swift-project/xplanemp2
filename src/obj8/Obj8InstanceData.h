@@ -31,6 +31,8 @@
 #include "Obj8Attachment.h"
 #include "CSL.h"
 
+class Obj8CSL;
+
 /** a single renderable instance of a Obj8CSL */
 class Obj8InstanceData : public CSLInstanceData {
 public:
