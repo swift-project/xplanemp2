@@ -221,9 +221,6 @@ XPMPCreatePlane(
     plane->updateCSL();
     XPMPPlanePtr planePtr = plane.get();
     gPlanes.emplace(planePtr, std::move(plane));
-    if (gPlanes.size() == 1) {
-        Renderer_Attach_Callbacks();
-    }
     return planePtr;
 }
 
@@ -262,9 +259,6 @@ XPMPCreatePlaneWithModelName(
 
     XPMPPlanePtr planePtr = plane.get();
     gPlanes.emplace(planePtr, std::move(plane));
-    if (gPlanes.size() == 1) {
-        Renderer_Attach_Callbacks();
-    }
     return planePtr;
 }
 
@@ -275,9 +269,6 @@ XPMPDestroyPlane(XPMPPlaneID inID)
     XPMPPlaneFromID(inID, &iter);
 
     gPlanes.erase(iter);
-    if (gPlanes.size() == 0) {
-        Renderer_Detach_Callbacks();
-    }
 }
 
 int
