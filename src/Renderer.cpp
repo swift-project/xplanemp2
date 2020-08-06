@@ -31,7 +31,7 @@
 
 #include "XPMPMultiplayerVars.h"
 #include "MapRendering.h"
-#include "TCASHack.h"
+#include "TCASOverride.h"
 
 using namespace std;
 
@@ -103,6 +103,8 @@ Render_PrepLists()
     for (auto &planePair: gPlanes) {
         planePair.second->doInstanceUpdate(gl_camera);
     }
+
+    TCAS::pushPlanes();
 }
 
 

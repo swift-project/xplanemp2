@@ -35,7 +35,7 @@
 #include "PlaneType.h"
 #include "Renderer.h"
 #include "CullInfo.h"
-#include "TCASHack.h"
+#include "TCASOverride.h"
 #include "CSLLibrary.h"
 
 using namespace std;
@@ -144,7 +144,7 @@ XPMPPlane::doInstanceUpdate(const CullInfo &gl_camera)
 		if (mInstanceData->mTCAS) {
 			// populate the global TCAS list
 			TCAS::addPlane(mInstanceData->mDistanceSqr, static_cast<float>(lx), static_cast<float>(ly), static_cast<float>(lz),
-				mSurveillance.mode != xpmpTransponderMode_Mode3A);
+				mSurveillance.mode != xpmpTransponderMode_Mode3A, this);
 		}
 
 		// do labels.

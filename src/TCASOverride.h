@@ -37,28 +37,27 @@
 
 class TCAS {
 private:
-	static std::vector<XPLMDataRef>			gMultiRef_X;
-	static std::vector<XPLMDataRef>			gMultiRef_Y;
-	static std::vector<XPLMDataRef>			gMultiRef_Z;
-
-	static int 								gEnableCount; // Hack - see TCAS support
+	static XPLMDataRef						gOverrideRef;
+	static XPLMDataRef						gXCoordRef;
+	static XPLMDataRef						gYCoordRef;
+	static XPLMDataRef						gZCoordRef;
+	static XPLMDataRef						gModeSRef;
 
 	static bool								gTCASHooksRegistered;
-
-	static int ControlPlaneCount(XPLMDrawingPhase, int, void *);
 
 	struct plane_record {
 		float x;
 		float y;
 		float z;
+		int mode_S;
 	};
 	typedef std::multimap<float, struct plane_record>	TCASMap;
 
 	static TCASMap 							gTCASPlanes;
-	static int								gMaxTCASItems;
+	static const std::size_t				gMaxTCASItems;
 
 public:
-	static XPLMDataRef						gAltitudeRef; // Current aircraft altitude (for TCAS)
+	static XPLMDataRef						gAltitudeRef; // Current aircraft altitude
 
 	static void Init();
 	static void EnableHooks();
@@ -67,7 +66,10 @@ public:
 	static void cleanFrame();
 
 	/** adds a plane to the list of aircraft we're going to report on */
-	static void addPlane(float distanceSqr, float x, float y, float z, bool isReportingAltitude);
+	static void addPlane(float distanceSqr, float x, float y, float z, bool isReportingAltitude, void *plane);
+
+	/** forwards the list of aircraft to x-plane */
+	static void pushPlanes();
 };
 
 #endif //XPMP_TCASHACK_H
