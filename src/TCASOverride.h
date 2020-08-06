@@ -26,7 +26,6 @@
 #define XPMP_TCASHACK_H
 
 #include <vector>
-#include <map>
 
 #include <XPLMDataAccess.h>
 #include <XPLMDisplay.h>
@@ -46,14 +45,18 @@ private:
 	static bool								gTCASHooksRegistered;
 
 	struct plane_record {
+		float distanceSqr;
 		float x;
 		float y;
 		float z;
 		int mode_S;
+		friend bool operator<(const plane_record &a, const plane_record &b)
+		{
+			return a.distanceSqr < b.distanceSqr;
+		}
 	};
-	typedef std::multimap<float, struct plane_record>	TCASMap;
 
-	static TCASMap 							gTCASPlanes;
+	static std::vector<plane_record>		gTCASPlanes;
 	static const std::size_t				gMaxTCASItems;
 
 public:

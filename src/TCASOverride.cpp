@@ -26,6 +26,7 @@
 #include "XPMPMultiplayerVars.h"
 
 #include <vector>
+#include <algorithm>
 #include <XPLMDataAccess.h>
 #include <XPLMPlanes.h>
 #include <XPLMDisplay.h>
@@ -77,7 +78,7 @@ TCAS::DisableHooks()
 	}
 }
 
-TCAS::TCASMap TCAS::gTCASPlanes;
+std::vector<TCAS::plane_record> TCAS::gTCASPlanes;
 
 void
 TCAS::cleanFrame()
@@ -89,20 +90,21 @@ void
 TCAS::addPlane(float distanceSqr, float x, float y, float z, bool /*isReportingAltitude*/, void *plane)
 {
 	int mode_S = reinterpret_cast<std::uintptr_t>(plane) & 0xffffffu;
-	gTCASPlanes.emplace( distanceSqr, plane_record{x, y, z, mode_S} );
+	gTCASPlanes.push_back({ distanceSqr, x, y, z, mode_S });
 }
 
 void
 TCAS::pushPlanes()
 {
+	std::sort(gTCASPlanes.begin(), gTCASPlanes.end());
 	const int count = static_cast<int>((std::min)(gMaxTCASItems, gTCASPlanes.size()));
 	XPLMSetActiveAircraftCount(count + 1);
 	auto plane = gTCASPlanes.begin();
 	for (int i = 0; i < count; ++i, ++plane)
 	{
-		XPLMSetDatavf(gXCoordRef, &plane->second.x, i + 1, 1);
-		XPLMSetDatavf(gYCoordRef, &plane->second.y, i + 1, 1);
-		XPLMSetDatavf(gZCoordRef, &plane->second.z, i + 1, 1);
-		XPLMSetDatavi(gModeSRef, &plane->second.mode_S, i + 1, 1);
+		XPLMSetDatavf(gXCoordRef, &plane->x, i + 1, 1);
+		XPLMSetDatavf(gYCoordRef, &plane->y, i + 1, 1);
+		XPLMSetDatavf(gZCoordRef, &plane->z, i + 1, 1);
+		XPLMSetDatavi(gModeSRef, &plane->mode_S, i + 1, 1);
 	}
 }
