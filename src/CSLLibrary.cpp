@@ -259,6 +259,9 @@ static bool
 ParseVertOffsetCommand(
 	const std::vector<std::string> &tokens, CSLPackage_t &package, const string &path, int lineNum, const string &line)
 {
+	// error - record at stupid place in file - probably part of a legacy CSL
+	if (package.planes.empty()) { return false; }
+
 	// VERT_OFFSET
 	// this is the csl-model vertical offset for accurately putting planes onto the ground.
 	if (tokens.size() != 2) {
@@ -273,6 +276,9 @@ static bool
 ParseHasGearCommand(
 	const std::vector<std::string> &tokens, CSLPackage_t &package, const string &path, int lineNum, const string &line)
 {
+	// error - record at stupid place in file - probably part of a legacy CSL
+	if (package.planes.empty()) { return false; }
+
 	// HASGEAR YES|NO
 	if (tokens.size() != 2 || (tokens[1] != "YES" && tokens[1] != "NO")) {
 		XPLMDump(path, lineNum, line)
@@ -301,6 +307,9 @@ static bool
 ParseIcaoCommand(
 	const std::vector<std::string> &tokens, CSLPackage_t &package, const string &path, int lineNum, const string &line)
 {
+	// error - record at stupid place in file - probably part of a legacy CSL
+	if (package.planes.empty()) { return false; }
+
 	// ICAO <code>
 	if (tokens.size() != 2) {
 		XPLMDump(path, lineNum, line) << XPMP_CLIENT_NAME " WARNING: ICAO command takes 1 argument.\n";
@@ -322,6 +331,9 @@ static bool
 ParseAirlineCommand(
 	const std::vector<std::string> &tokens, CSLPackage_t &package, const string &path, int lineNum, const string &line)
 {
+	// error - record at stupid place in file - probably part of a legacy CSL
+	if (package.planes.empty()) { return false; }
+
 	// AIRLINE <code> <airline>
 	if (tokens.size() != 3) {
 		XPLMDump(path, lineNum, line) << XPMP_CLIENT_NAME " WARNING: AIRLINE command takes two arguments.\n";
@@ -351,6 +363,9 @@ static bool
 ParseLiveryCommand(
 	const std::vector<std::string> &tokens, CSLPackage_t &package, const string &path, int lineNum, const string &line)
 {
+	// error - record at stupid place in file - probably part of a legacy CSL
+	if (package.planes.empty()) { return false; }
+
 	// LIVERY <code> <airline> <livery>
 	if (tokens.size() != 4) {
 		XPLMDump(path, lineNum, line) << XPMP_CLIENT_NAME " WARNING: LIVERY command takes two arguments.\n";
