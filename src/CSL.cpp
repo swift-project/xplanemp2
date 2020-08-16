@@ -201,13 +201,6 @@ CSL::updateInstance(const CullInfo &cullInfo,
 	instanceData->mDistanceSqr = cullInfo.SphereDistanceSqr(
 		static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
 
-	// TCAS checks.
-	instanceData->mTCAS = true;
-	// If the plane is farther than our TCAS range, it's just not visible.  Drop it!
-	if (instanceData->mDistanceSqr> (kMaxDistTCAS * kMaxDistTCAS)) {
-		instanceData->mTCAS = false;
-	}
-
 	// we need to assess cull state so we can work out if we need to render labels or not
 	instanceData->mCulled = false;
 	// cull if the aircraft is not visible due to poor horizontal visibility

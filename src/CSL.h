@@ -47,7 +47,6 @@ class CSL;
 class CSLInstanceData {
 public:
     float mDistanceSqr;        // the distance squared
-    bool mTCAS = false;
     bool mCulled = false;
     bool mClamped = false;
 

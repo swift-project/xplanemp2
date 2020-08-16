@@ -30,9 +30,6 @@
 #include <XPLMDataAccess.h>
 #include <XPLMDisplay.h>
 
-/* Maximum altitude difference in feet for TCAS blips */
-#define		MAX_TCAS_ALTDIFF		10000
-
 
 class TCAS {
 private:
@@ -60,8 +57,6 @@ private:
 	static const std::size_t				gMaxTCASItems;
 
 public:
-	static XPLMDataRef						gAltitudeRef; // Current aircraft altitude
-
 	static void Init();
 	static void EnableHooks();
 	static void DisableHooks();
@@ -69,7 +64,7 @@ public:
 	static void cleanFrame();
 
 	/** adds a plane to the list of aircraft we're going to report on */
-	static void addPlane(float distanceSqr, float x, float y, float z, bool isReportingAltitude, void *plane);
+	static void addPlane(float distanceSqr, float x, float y, float z, void *plane);
 
 	/** forwards the list of aircraft to x-plane */
 	static void pushPlanes();

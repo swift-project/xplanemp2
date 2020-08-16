@@ -130,22 +130,9 @@ XPMPPlane::doInstanceUpdate(const CullInfo &gl_camera)
 		if (mInstanceData == nullptr) {
 			return 0.0;
 		}
-		// apply surveillance mode related masking to the TCAS inclusion record.
-		if (mSurveillance.mode == xpmpTransponderMode_Standby) {
-			mInstanceData->mTCAS = false;
-		}
-		// check for altitude - if difference exceeds a preconfigured limit, don't show
-		double acft_alt = XPLMGetDatad(TCAS::gAltitudeRef) / kFtToMeters;
-		double alt_diff = mPosition.elevation - acft_alt;
-		if(alt_diff < 0) alt_diff *= -1;
-		if(mSurveillance.mode != xpmpTransponderMode_Mode3A && alt_diff > MAX_TCAS_ALTDIFF) {
-			mInstanceData->mTCAS = false;
-		}
-		if (mInstanceData->mTCAS) {
-			// populate the global TCAS list
-			TCAS::addPlane(mInstanceData->mDistanceSqr, static_cast<float>(lx), static_cast<float>(ly), static_cast<float>(lz),
-				mSurveillance.mode != xpmpTransponderMode_Mode3A, this);
-		}
+		// populate the global TCAS list
+		TCAS::addPlane(mInstanceData->mDistanceSqr, static_cast<float>(lx), static_cast<float>(ly), static_cast<float>(lz),
+			this);
 
 		// do labels.
 #if 0

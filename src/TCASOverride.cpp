@@ -44,7 +44,6 @@ XPLMDataRef							TCAS::gXCoordRef = nullptr;
 XPLMDataRef							TCAS::gYCoordRef = nullptr;
 XPLMDataRef							TCAS::gZCoordRef = nullptr;
 XPLMDataRef							TCAS::gModeSRef = nullptr;
-XPLMDataRef							TCAS::gAltitudeRef = nullptr;	// Current aircraft altitude (for TCAS)
 bool								TCAS::gTCASHooksRegistered = false;
 const std::size_t					TCAS::gMaxTCASItems = 63;
 
@@ -57,7 +56,6 @@ TCAS::Init()
 	gYCoordRef = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/y");
 	gZCoordRef = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/z");
 	gModeSRef = XPLMFindDataRef("sim/cockpit2/tcas/targets/modeS_id");
-	gAltitudeRef = XPLMFindDataRef("sim/flightmodel/position/elevation");
 }
 
 void
@@ -87,7 +85,7 @@ TCAS::cleanFrame()
 }
 
 void
-TCAS::addPlane(float distanceSqr, float x, float y, float z, bool /*isReportingAltitude*/, void *plane)
+TCAS::addPlane(float distanceSqr, float x, float y, float z, void *plane)
 {
 	int mode_S = reinterpret_cast<std::uintptr_t>(plane) & 0xffffffu;
 	gTCASPlanes.push_back({ distanceSqr, x, y, z, mode_S });

@@ -43,7 +43,6 @@
 #include "PlaneType.h"
 
 const	double	kFtToMeters = 0.3048;
-const	double	kMaxDistTCAS = 40.0 * 6080.0 * kFtToMeters;
 
 /****************** MODEL MATCHING CRAP ***************/
 
