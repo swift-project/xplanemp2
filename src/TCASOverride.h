@@ -37,6 +37,7 @@ private:
 	static XPLMDataRef						gXCoordRef;
 	static XPLMDataRef						gYCoordRef;
 	static XPLMDataRef						gZCoordRef;
+	static XPLMDataRef						gHeadingRef;
 	static XPLMDataRef						gModeSRef;
 
 	static bool								gTCASHooksRegistered;
@@ -46,6 +47,7 @@ private:
 		float x;
 		float y;
 		float z;
+		float heading;
 		int mode_S;
 		friend bool operator<(const plane_record &a, const plane_record &b)
 		{
@@ -64,7 +66,7 @@ public:
 	static void cleanFrame();
 
 	/** adds a plane to the list of aircraft we're going to report on */
-	static void addPlane(float distanceSqr, float x, float y, float z, void *plane);
+	static void addPlane(float distanceSqr, float x, float y, float z, float heading, void *plane);
 
 	/** forwards the list of aircraft to x-plane */
 	static void pushPlanes();

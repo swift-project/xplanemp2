@@ -43,6 +43,7 @@ XPLMDataRef							TCAS::gOverrideRef = nullptr;
 XPLMDataRef							TCAS::gXCoordRef = nullptr;
 XPLMDataRef							TCAS::gYCoordRef = nullptr;
 XPLMDataRef							TCAS::gZCoordRef = nullptr;
+XPLMDataRef							TCAS::gHeadingRef = nullptr;
 XPLMDataRef							TCAS::gModeSRef = nullptr;
 bool								TCAS::gTCASHooksRegistered = false;
 const std::size_t					TCAS::gMaxTCASItems = 63;
@@ -55,6 +56,7 @@ TCAS::Init()
 	gXCoordRef = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/x");
 	gYCoordRef = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/y");
 	gZCoordRef = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/z");
+	gHeadingRef = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/psi");
 	gModeSRef = XPLMFindDataRef("sim/cockpit2/tcas/targets/modeS_id");
 }
 
@@ -85,10 +87,10 @@ TCAS::cleanFrame()
 }
 
 void
-TCAS::addPlane(float distanceSqr, float x, float y, float z, void *plane)
+TCAS::addPlane(float distanceSqr, float x, float y, float z, float heading, void *plane)
 {
 	int mode_S = reinterpret_cast<std::uintptr_t>(plane) & 0xffffffu;
-	gTCASPlanes.push_back({ distanceSqr, x, y, z, mode_S });
+	gTCASPlanes.push_back({ distanceSqr, x, y, z, heading, mode_S });
 }
 
 void
@@ -103,6 +105,7 @@ TCAS::pushPlanes()
 		XPLMSetDatavf(gXCoordRef, &plane->x, i + 1, 1);
 		XPLMSetDatavf(gYCoordRef, &plane->y, i + 1, 1);
 		XPLMSetDatavf(gZCoordRef, &plane->z, i + 1, 1);
+		XPLMSetDatavf(gHeadingRef, &plane->heading, i + 1, 1);
 		XPLMSetDatavi(gModeSRef, &plane->mode_S, i + 1, 1);
 	}
 }
