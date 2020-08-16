@@ -30,7 +30,6 @@
 #include <XPLMCamera.h>
 
 #include "XPMPMultiplayerVars.h"
-#include "MapRendering.h"
 #include "TCASOverride.h"
 
 using namespace std;

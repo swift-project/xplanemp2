@@ -41,7 +41,6 @@
 #include "XPMPMultiplayer.h"
 #include "XPMPMultiplayerVars.h"
 #include "TCASOverride.h"
-#include "MapRendering.h"
 #include "CSLLibrary.h"
 #include "XUtils.h"
 #include "Renderer.h"
@@ -133,23 +132,15 @@ XPMPMultiplayerEnable()
     Planes_SafeAcquire(&MPPlanesAcquired, &MPPlanesReleased, nullptr, 0);
     // put in the rendering hook now
     Renderer_Attach_Callbacks();
-    XPMPMapRendering::Start();
     return "";
 }
 
 void
 XPMPMultiplayerDisable(void)
 {
-    XPMPMapRendering::Shutdown();
     Renderer_Detach_Callbacks();
     Planes_SafeRelease();
     gPlanes.clear();
-}
-
-void
-XPMPSetMapIcon(const char *spritePng, int s, int t, int ds, int dt, float iconSize)
-{
-    XPMPMapRendering::ConfigureIcon(spritePng, s, t, ds, dt, iconSize);
 }
 
 const char *
