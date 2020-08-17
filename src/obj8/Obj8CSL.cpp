@@ -111,22 +111,25 @@ Obj8CSL::Obj8CSL(std::vector<std::string> dirNames, std::string objectName) :
 {
 }
 
-string
+const string&
 Obj8CSL::getModelName() const
 {
-	string modelName = "";
-	for (const auto &dir: mDirNames) {
-		modelName += dir;
-		modelName += ' ';
+	if (mModelName.empty()) {
+		for (const auto &dir: mDirNames) {
+			mModelName += dir;
+			mModelName += ' ';
+		}
+		mModelName += mObjectName;
 	}
-	modelName += mObjectName;
-	return modelName;
+	return mModelName;
 }
 
-std::string
+static const std::string cObj8ModelType = "Obj8";
+
+const std::string&
 Obj8CSL::getModelType() const
 {
-	return "Obj8";
+	return cObj8ModelType;
 }
 
 void

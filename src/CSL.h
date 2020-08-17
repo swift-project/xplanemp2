@@ -119,13 +119,13 @@ public:
      *
      * @returns a string identifying the particular model in use
      */
-    virtual std::string getModelName() const = 0;
+    virtual const std::string &getModelName() const = 0;
 
     /** getModelType should return a short string identifying the type of CSL it is
      *
      * @returns a string identifying the type of model in use
      */
-    virtual std::string getModelType() const = 0;
+    virtual const std::string &getModelType() const = 0;
 
     /** setMovingGear is used to disable gear-position clamping.
      *
@@ -160,11 +160,11 @@ public:
                    const std::string &airline,
                    const std::string &livery);
 
-    std::string getICAO() const;
+    const std::string &getICAO() const;
 
-    std::string getAirline() const;
+    const std::string &getAirline() const;
 
-    std::string getLivery() const;
+    const std::string &getLivery() const;
 
     /** updateInstance updates the instanceData for rendering this frame.  If
      * the instanceData is not initialised, this method invokes the

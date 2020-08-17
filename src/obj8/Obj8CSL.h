@@ -82,9 +82,9 @@ public:
         return &(attIter->second);
     }
 
-    std::string getModelName() const override;
+    const std::string& getModelName() const override;
 
-    std::string getModelType() const override;
+    const std::string& getModelType() const override;
 
     static void Init();
     static const char * dref_names[];
@@ -92,6 +92,7 @@ protected:
 
     attachment_map mAttachments;
     std::string mObjectName;     // Basename of the object file
+    mutable std::string mModelName; // Unique CSL name. Generated on demand. Can be empty.
 
 private:
 

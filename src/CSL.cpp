@@ -128,17 +128,17 @@ CSL::setLivery(const std::string &icaoCode, const std::string &airline, const st
 	mLivery = livery;
 }
 
-std::string
+const std::string&
 CSL::getICAO() const {
 	return mICAO;
 }
 
-std::string
+const std::string&
 CSL::getAirline() const {
 	return mAirline;
 }
 
-std::string
+const std::string&
 CSL::getLivery() const {
 	return mLivery;
 }
