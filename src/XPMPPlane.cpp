@@ -132,7 +132,7 @@ XPMPPlane::doInstanceUpdate(const CullInfo &gl_camera)
 		}
 		// populate the global TCAS list
 		TCAS::addPlane(mInstanceData->mDistanceSqr, static_cast<float>(lx), static_cast<float>(ly), static_cast<float>(lz),
-			mPosition.heading, this);
+			mPosition.heading, mPosition.label, this);
 
 		// do labels.
 #if 0

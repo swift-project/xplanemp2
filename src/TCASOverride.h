@@ -26,6 +26,7 @@
 #define XPMP_TCASHACK_H
 
 #include <vector>
+#include <cstring>
 
 #include <XPLMDataAccess.h>
 #include <XPLMDisplay.h>
@@ -39,6 +40,7 @@ private:
 	static XPLMDataRef						gZCoordRef;
 	static XPLMDataRef						gHeadingRef;
 	static XPLMDataRef						gModeSRef;
+	static XPLMDataRef						gFlightRef;
 
 	static bool								gTCASHooksRegistered;
 
@@ -49,6 +51,11 @@ private:
 		float z;
 		float heading;
 		int mode_S;
+		struct name
+		{
+			name(const char *i_bytes) { std::strncpy(bytes, i_bytes, 7); }
+			char bytes[8]{};
+		} name;
 		friend bool operator<(const plane_record &a, const plane_record &b)
 		{
 			return a.distanceSqr < b.distanceSqr;
@@ -66,7 +73,7 @@ public:
 	static void cleanFrame();
 
 	/** adds a plane to the list of aircraft we're going to report on */
-	static void addPlane(float distanceSqr, float x, float y, float z, float heading, void *plane);
+	static void addPlane(float distanceSqr, float x, float y, float z, float heading, const char *name, void *plane);
 
 	/** forwards the list of aircraft to x-plane */
 	static void pushPlanes();

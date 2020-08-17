@@ -45,6 +45,7 @@ XPLMDataRef							TCAS::gYCoordRef = nullptr;
 XPLMDataRef							TCAS::gZCoordRef = nullptr;
 XPLMDataRef							TCAS::gHeadingRef = nullptr;
 XPLMDataRef							TCAS::gModeSRef = nullptr;
+XPLMDataRef							TCAS::gFlightRef = nullptr;
 bool								TCAS::gTCASHooksRegistered = false;
 const std::size_t					TCAS::gMaxTCASItems = 63;
 
@@ -58,6 +59,7 @@ TCAS::Init()
 	gZCoordRef = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/z");
 	gHeadingRef = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/psi");
 	gModeSRef = XPLMFindDataRef("sim/cockpit2/tcas/targets/modeS_id");
+	gFlightRef = XPLMFindDataRef("sim/cockpit2/tcas/targets/flight_id");
 }
 
 void
@@ -87,10 +89,10 @@ TCAS::cleanFrame()
 }
 
 void
-TCAS::addPlane(float distanceSqr, float x, float y, float z, float heading, void *plane)
+TCAS::addPlane(float distanceSqr, float x, float y, float z, float heading, const char *name, void *plane)
 {
 	int mode_S = reinterpret_cast<std::uintptr_t>(plane) & 0xffffffu;
-	gTCASPlanes.push_back({ distanceSqr, x, y, z, heading, mode_S });
+	gTCASPlanes.push_back({ distanceSqr, x, y, z, heading, mode_S, name });
 }
 
 void
@@ -107,5 +109,6 @@ TCAS::pushPlanes()
 		XPLMSetDatavf(gZCoordRef, &plane->z, i + 1, 1);
 		XPLMSetDatavf(gHeadingRef, &plane->heading, i + 1, 1);
 		XPLMSetDatavi(gModeSRef, &plane->mode_S, i + 1, 1);
+		XPLMSetDatab(gFlightRef, plane->name.bytes, (i + 1) * 8, 8);
 	}
 }
