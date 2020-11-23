@@ -906,7 +906,7 @@ CSL_MatchPlane(const PlaneType &type,int *match_quality, bool allow_default)
 	auto *defCSL = CSL_MatchPlane(gDefaultPlane, &defaultMatchQuality, false);
 	if (match_quality != nullptr) {
 		if (defaultMatchQuality > 0) {
-			*match_quality = match_count + match_fallback_count + defaultMatchQuality;
+			*match_quality = defaultMatchQuality + match_count + match_fallback_count;
 		} else {
 			*match_quality = -1;
 		}
