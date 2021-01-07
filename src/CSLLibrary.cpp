@@ -864,6 +864,7 @@ CSL_MatchPlane(const PlaneType &type,int *match_quality, bool allow_default)
 							case match_fallback_wtc_engines:
 								if (m->second.equip[1] != model_it->second.equip[1])
 									continue;
+								//lint -fallthrough
 							case match_fallback_wtc_enginetype:
 								if (m->second.equip.length() != 3) {
 									continue;
