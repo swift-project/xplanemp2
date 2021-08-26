@@ -103,7 +103,7 @@ ParseExportCommand(
 	}
 
 	auto p = std::find_if(
-		gPackages.begin(), gPackages.end(), [&tokens](CSLPackage_t p) { return p.name == tokens[1]; });
+		gPackages.begin(), gPackages.end(), [&tokens](const CSLPackage_t &p) { return p.name == tokens[1]; });
 	if (p == gPackages.end()) {
 		package.path = path;
 		package.name = tokens[1];
@@ -134,7 +134,7 @@ ParseDependencyCommand(
 		return false;
 	}
 
-	if (std::count_if(gPackages.begin(), gPackages.end(), [&tokens](CSLPackage_t p) { return p.name == tokens[1]; }) ==
+	if (std::count_if(gPackages.begin(), gPackages.end(), [&tokens](const CSLPackage_t &p) { return p.name == tokens[1]; }) ==
 		0) {
 		XPLMDump(path, lineNum, line)
 			<< XPMP_CLIENT_NAME " WARNING: required package "
@@ -268,7 +268,7 @@ ParseVertOffsetCommand(
 		XPLMDump(path, lineNum, line) << XPMP_CLIENT_NAME " WARNING: VERT_OFFSET command takes 1 argument.\n";
 		return false;
 	}
-	package.planes.back()->setVerticalOffset(VerticalOffsetSource::Model, stof(tokens[1].c_str()));
+	package.planes.back()->setVerticalOffset(VerticalOffsetSource::Model, stof(tokens[1]));
 	return true;
 }
 

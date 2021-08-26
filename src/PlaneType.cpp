@@ -48,7 +48,7 @@ PlaneType::PlaneType(const PlaneType &copySrc) :
 
 }
 
-PlaneType::PlaneType(PlaneType &&moveSrc) :
+PlaneType::PlaneType(PlaneType &&moveSrc)  noexcept :
 	mICAO(std::move(moveSrc.mICAO)),
 	mAirline(std::move(moveSrc.mAirline)),
 	mLivery(std::move(moveSrc.mLivery))
@@ -102,7 +102,7 @@ PlaneType::operator=(const PlaneType &other)
 string
 PlaneType::toLongString() const
 {
-	string rv = "";
+	string rv;
 	if (!mICAO.empty()) {
 		rv += "ICAO=" + mICAO;
 	}

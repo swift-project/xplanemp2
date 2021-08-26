@@ -41,7 +41,7 @@ public:
 
 	PlaneType(const std::string &icao="", const std::string &airline="", const std::string &livery="");
 	PlaneType(const PlaneType &copySrc);
-	PlaneType(PlaneType &&moveSrc);
+	PlaneType(PlaneType &&moveSrc) noexcept;
 
 	/* compare checks if the two types match
 	 * @param other The other PlaneType to compare with
