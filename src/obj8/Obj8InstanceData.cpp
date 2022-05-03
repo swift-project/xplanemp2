@@ -24,6 +24,7 @@
 
 #include "Obj8InstanceData.h"
 
+#include <cmath>
 #include <cassert>
 #include <XPMPMultiplayerVars.h>
 
@@ -82,6 +83,12 @@ Obj8InstanceData::updateInstance(
     objPosition.pitch = static_cast<float>(pitch);
     objPosition.roll = static_cast<float>(roll);
 
+    static const XPLMDataRef flightTime = XPLMFindDataRef("sim/time/total_flight_time_sec");
+    const float engineSpeedRPM = (state->thrust) > 0.0 ? 1200.0f : 0.0f;
+    const float engineSpeedDegSec = engineSpeedRPM * 360 / 60;
+    const float engineSpeedRadSec = engineSpeedRPM * 2 * 3.14159f / 60;
+    const float engineRotationDeg = std::fmod(engineSpeedDegSec * XPLMGetDataf(flightTime), 360.0f);
+
     // these must be in the same order as defined by dref_names
     float dataRefValues[] = {
         state->gearPosition,
@@ -99,7 +106,12 @@ Obj8InstanceData::updateInstance(
         static_cast<float>(lights.landLights),
         static_cast<float>(lights.bcnLights),
         static_cast<float>(lights.strbLights),
-        static_cast<float>(lights.navLights)
+        static_cast<float>(lights.navLights),
+
+        static_cast<float>((state->thrust < 0.0) ? 1.0 : 0.0),
+        engineRotationDeg, engineRotationDeg, engineRotationDeg, engineRotationDeg, engineRotationDeg, engineRotationDeg,
+        engineSpeedRPM, engineSpeedRPM, engineSpeedRPM, engineSpeedRPM, engineSpeedRPM, engineSpeedRPM,
+        engineSpeedRadSec, engineSpeedRadSec, engineSpeedRadSec, engineSpeedRadSec, engineSpeedRadSec, engineSpeedRadSec
     };
     for (auto &instanceSet: mInstances) {
         for (auto &instance: instanceSet) {

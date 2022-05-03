@@ -53,6 +53,27 @@ const char * Obj8CSL::dref_names[] = {
 	"libxplanemp/controls/beacon_lites_on",
 	"libxplanemp/controls/strobe_lites_on",
 	"libxplanemp/controls/nav_lites_on",
+
+	// TwinFan's XPMP2 datarefs
+	"libxplanemp/engines/thrust_reverser_deploy_ratio",
+	"libxplanemp/engines/prop_rotation_angle_deg",
+	"libxplanemp/engines/engine_rotation_angle_deg",
+	"libxplanemp/engines/engine_rotation_angle_deg1",
+	"libxplanemp/engines/engine_rotation_angle_deg2",
+	"libxplanemp/engines/engine_rotation_angle_deg3",
+	"libxplanemp/engines/engine_rotation_angle_deg4",
+	"libxplanemp/engines/prop_rotation_speed_rpm",
+	"libxplanemp/engines/engine_rotation_speed_rpm",
+	"libxplanemp/engines/engine_rotation_speed_rpm1",
+	"libxplanemp/engines/engine_rotation_speed_rpm2",
+	"libxplanemp/engines/engine_rotation_speed_rpm3",
+	"libxplanemp/engines/engine_rotation_speed_rpm4",
+	"libxplanemp/engines/prop_rotation_speed_rad_sec",
+	"libxplanemp/engines/engine_rotation_speed_rad_sec",
+	"libxplanemp/engines/engine_rotation_speed_rad_sec1",
+	"libxplanemp/engines/engine_rotation_speed_rad_sec2",
+	"libxplanemp/engines/engine_rotation_speed_rad_sec3",
+	"libxplanemp/engines/engine_rotation_speed_rad_sec4",
 	nullptr
 };
 
