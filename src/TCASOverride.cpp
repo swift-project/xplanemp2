@@ -25,12 +25,14 @@
 #include "TCASOverride.h"
 #include "XPMPMultiplayerVars.h"
 
+#include <cmath>
 #include <vector>
 #include <algorithm>
 #include <XPLMDataAccess.h>
 #include <XPLMPlanes.h>
 #include <XPLMDisplay.h>
 #include <XPLMProcessing.h>
+#include <XPLMUtilities.h>
 
 /******************************************************************************
 
@@ -91,6 +93,12 @@ TCAS::cleanFrame()
 void
 TCAS::addPlane(float distanceSqr, float x, float y, float z, float heading, const char *name, void *plane)
 {
+	if (!std::isnormal(distanceSqr) || !std::isnormal(x) || !std::isnormal(y) || !std::isnormal(z) || !std::isnormal(heading))
+	{
+		XPLMDebugString(name);
+		XPLMDebugString(": non-normal TCAS data\n");
+		return;
+	}
 	int mode_S = reinterpret_cast<std::uintptr_t>(plane) & 0xffffffu;
 	gTCASPlanes.push_back({ distanceSqr, x, y, z, heading, mode_S, name });
 }
