@@ -26,6 +26,7 @@
 #include "XPMPMultiplayerVars.h"
 
 #include <cmath>
+#include <cstdint>
 #include <vector>
 #include <algorithm>
 #include <XPLMDataAccess.h>
