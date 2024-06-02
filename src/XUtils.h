@@ -44,7 +44,7 @@ struct XPLMDump {
 		XPLMDebugString(inFileName.c_str());
 		XPLMDebugString(" line ");
 		char buf[32];
-		sprintf(buf,"%d", lineNum);
+		snprintf(buf, sizeof(buf), "%d", lineNum);
 		XPLMDebugString(buf);
 		XPLMDebugString(".\n              ");
 		XPLMDebugString(line);
@@ -56,7 +56,7 @@ struct XPLMDump {
 		XPLMDebugString(inFileName.c_str());
 		XPLMDebugString(" line ");
 		char buf[32];
-		sprintf(buf,"%d", lineNum);
+		snprintf(buf, sizeof(buf), "%d", lineNum);
 		XPLMDebugString(buf);
 		XPLMDebugString(".\n              ");
 		XPLMDebugString(line.c_str());
@@ -73,13 +73,13 @@ struct XPLMDump {
 	}
 	XPLMDump& operator<<(int n) {
 		char buf[255];
-		sprintf(buf, "%d", n);
+		snprintf(buf, sizeof(buf), "%d", n);
 		XPLMDebugString(buf);
 		return *this;
 	}
 	XPLMDump& operator<<(size_t n) {
 		char buf[255];
-		sprintf(buf, "%u", static_cast<unsigned>(n));
+		snprintf(buf, sizeof(buf), "%u", static_cast<unsigned>(n));
 		XPLMDebugString(buf);
 		return *this;
 	}

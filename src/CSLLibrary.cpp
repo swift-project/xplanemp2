@@ -662,7 +662,7 @@ CSL_LoadCSL(const char *inFolderPath)
 	double delta = (t2 - t1);
 	delta /= 1000000.0;
 	char buf[256];
-	sprintf(buf,"CSL full load took: %lf\n", delta);
+	snprintf(buf, sizeof(buf), "CSL full load took: %lf\n", delta);
 	XPLMDebugString(buf);
 #endif
 	return ok;
@@ -700,7 +700,7 @@ CSL_MatchPlane(const PlaneType &type,int *match_quality, bool allow_default)
 	if (gConfiguration.debug.modelMatching) {
 		snprintf(
 			buf,
-			4096,
+			sizeof(buf),
 			XPMP_CLIENT_NAME " MATCH - %s - GROUP=%s\n",
 			type.toLongString().c_str(),
 			group.c_str());
@@ -713,7 +713,7 @@ CSL_MatchPlane(const PlaneType &type,int *match_quality, bool allow_default)
 		key = kUseICAO[n]?type.mICAO:group;
 		if (!kUseICAO[n] && group.empty()) {
 			if (gConfiguration.debug.modelMatching) {
-				sprintf(buf, XPMP_CLIENT_NAME " MATCH -    Skipping %d Due nil Group\n", n);
+				snprintf(buf, sizeof(buf), XPMP_CLIENT_NAME " MATCH -    Skipping %d Due nil Group\n", n);
 				XPLMDebugString(buf);
 			}
 		}
@@ -721,7 +721,7 @@ CSL_MatchPlane(const PlaneType &type,int *match_quality, bool allow_default)
 		if (kUseAirline[n]) {
 			if (type.mAirline.empty()) {
 				if (gConfiguration.debug.modelMatching) {
-					sprintf(buf, XPMP_CLIENT_NAME " MATCH -    Skipping %d Due Absent Airline\n", n);
+					snprintf(buf, sizeof(buf), XPMP_CLIENT_NAME " MATCH -    Skipping %d Due Absent Airline\n", n);
 					XPLMDebugString(buf);
 				}
 				continue;
@@ -733,7 +733,7 @@ CSL_MatchPlane(const PlaneType &type,int *match_quality, bool allow_default)
 		if (kUseLivery[n]) {
 			if (type.mLivery.empty()) {
 				if (gConfiguration.debug.modelMatching) {
-					sprintf(buf, XPMP_CLIENT_NAME " MATCH -    Skipping %d Due Absent Livery\n", n);
+					snprintf(buf, sizeof(buf), XPMP_CLIENT_NAME " MATCH -    Skipping %d Due Absent Livery\n", n);
 					XPLMDebugString(buf);
 				}
 				continue;
@@ -743,7 +743,7 @@ CSL_MatchPlane(const PlaneType &type,int *match_quality, bool allow_default)
 		}
 
 		if (gConfiguration.debug.modelMatching) {
-			sprintf(buf, XPMP_CLIENT_NAME " MATCH -    Group %d key %s\n", n, key.c_str());
+			snprintf(buf, sizeof(buf), XPMP_CLIENT_NAME " MATCH -    Group %d key %s\n", n, key.c_str());
 			XPLMDebugString(buf);
 		}
 
@@ -753,8 +753,9 @@ CSL_MatchPlane(const PlaneType &type,int *match_quality, bool allow_default)
 			if (iter != package.matches[n].end()) {
 				if (!package.planes[iter->second]->isUsable()) {
 					if (gConfiguration.debug.modelMatching) {
-						sprintf(
+						snprintf(
 							buf,
+							sizeof(buf),
 							XPMP_CLIENT_NAME " MATCH - Skipping as not usable. Found: %s/%s/%s : %s\n",
 							package.planes[iter->second]->getICAO().c_str(),
 							package.planes[iter->second]->getAirline().c_str(),
@@ -768,8 +769,9 @@ CSL_MatchPlane(const PlaneType &type,int *match_quality, bool allow_default)
 					*match_quality = n;
 				}
 				if (gConfiguration.debug.modelMatching) {
-					sprintf(
+					snprintf(
 						buf,
+						sizeof(buf),
 						XPMP_CLIENT_NAME " MATCH - Found: %s/%s/%s : %s\n",
 						package.planes[iter->second]->getICAO().c_str(),
 						package.planes[iter->second]->getAirline().c_str(),
