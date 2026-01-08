@@ -42,6 +42,7 @@ using namespace std;
 
 XPMPPlane::XPMPPlane() :
 	mPlaneType("", "", ""),
+	mOnGround(false),
 	mCSL(nullptr),
 	mMatchQuality(0),
 	mInstanceData(nullptr)
@@ -92,6 +93,11 @@ XPMPPlane::updateSurveillance(const XPMPPlaneSurveillance_t &newSurveillance)
 	memcpy(&mSurveillance, &newSurveillance, min(newSurveillance.size, sizeof(mSurveillance)));
 }
 
+void XPMPPlane::updateOnGround(bool onGround)
+{
+	mOnGround = onGround;
+}
+
 float
 XPMPPlane::doInstanceUpdate(const CullInfo &gl_camera)
 {
@@ -130,9 +136,19 @@ XPMPPlane::doInstanceUpdate(const CullInfo &gl_camera)
 		if (mInstanceData == nullptr) {
 			return 0.0;
 		}
+
+		int ssrMode = 0;
+		switch (mSurveillance.mode)
+		{
+			case xpmpTransponderMode_Standby: ssrMode = 1; break;
+			case xpmpTransponderMode_Mode3A: ssrMode = 2; break;
+			case xpmpTransponderMode_ModeC:
+			case xpmpTransponderMode_ModeC_Low:
+			case xpmpTransponderMode_ModeC_Ident: ssrMode = 3; break;
+		}
 		// populate the global TCAS list
 		TCAS::addPlane(mInstanceData->mDistanceSqr, static_cast<float>(lx), static_cast<float>(ly), static_cast<float>(lz),
-			mPosition.heading, mPosition.label, this);
+			mPosition.heading, mPosition.label, mPlaneType.mICAO.c_str(), mOnGround, ssrMode, this);
 
 		// do labels.
 #if 0

@@ -244,6 +244,7 @@ typedef struct {
 	XPMPPlanePosition_t		*position;
 	XPMPPlaneSurfaces_t		*surfaces;
 	XPMPPlaneSurveillance_t *surveillance;
+	bool					isOnGround;
 } XPMPUpdate_t;
 
 /************************************************************************************

@@ -366,6 +366,7 @@ XPMPUpdatePlanes(
         if (thisUpdate->surveillance) {
             plane->updateSurveillance(*thisUpdate->surveillance);
         }
+        plane->updateOnGround(thisUpdate->isOnGround);
 
         // guards against new struct members should begin below.
     }

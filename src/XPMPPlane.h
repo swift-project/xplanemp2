@@ -37,6 +37,7 @@ private:
 	XPMPPlanePosition_t	mPosition;
 	XPMPPlaneSurfaces_t	mSurface;
 	XPMPPlaneSurveillance_t	mSurveillance;
+	bool mOnGround;
 
 	// rendering data
 	CSL *				mCSL;
@@ -64,6 +65,7 @@ public:
 	void updatePosition(const XPMPPlanePosition_t &newPosition);
 	void updateSurfaces(const XPMPPlaneSurfaces_t &newSurfaces);
 	void updateSurveillance(const XPMPPlaneSurveillance_t &newSurveillance);
+	void updateOnGround(bool onGround);
 
 	/** Updates the specific plane's instance data and prepares it's tcas
 	 * (and culling flags for selfrendered models)

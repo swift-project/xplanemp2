@@ -49,6 +49,9 @@ XPLMDataRef							TCAS::gZCoordRef = nullptr;
 XPLMDataRef							TCAS::gHeadingRef = nullptr;
 XPLMDataRef							TCAS::gModeSRef = nullptr;
 XPLMDataRef							TCAS::gFlightRef = nullptr;
+XPLMDataRef							TCAS::gICAOType = nullptr;
+XPLMDataRef							TCAS::gWeightOnWheels = nullptr;
+XPLMDataRef							TCAS::gSSRMode = nullptr;
 bool								TCAS::gTCASHooksRegistered = false;
 const std::size_t					TCAS::gMaxTCASItems = 63;
 
@@ -63,6 +66,9 @@ TCAS::Init()
 	gHeadingRef = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/psi");
 	gModeSRef = XPLMFindDataRef("sim/cockpit2/tcas/targets/modeS_id");
 	gFlightRef = XPLMFindDataRef("sim/cockpit2/tcas/targets/flight_id");
+	gICAOType = XPLMFindDataRef("sim/cockpit2/tcas/targets/icao_type");
+	gWeightOnWheels = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/weight_on_wheels");
+	gSSRMode = XPLMFindDataRef("sim/cockpit2/tcas/targets/ssr_mode"); // XP12
 }
 
 void
@@ -92,7 +98,7 @@ TCAS::cleanFrame()
 }
 
 void
-TCAS::addPlane(float distanceSqr, float x, float y, float z, float heading, const char *name, void *plane)
+TCAS::addPlane(float distanceSqr, float x, float y, float z, float heading, const char *name, const char *icao, bool wow, int mode, void *plane)
 {
 	if (!std::isnormal(distanceSqr) || !std::isnormal(x) || !std::isnormal(y) || !std::isnormal(z) || !std::isnormal(heading))
 	{
@@ -101,7 +107,7 @@ TCAS::addPlane(float distanceSqr, float x, float y, float z, float heading, cons
 		return;
 	}
 	int mode_S = reinterpret_cast<std::uintptr_t>(plane) & 0xffffffu;
-	gTCASPlanes.push_back({ distanceSqr, x, y, z, heading, mode_S, name });
+	gTCASPlanes.push_back({ distanceSqr, x, y, z, heading, mode_S, name, icao, wow ? 1 : 0, mode });
 }
 
 void
@@ -119,5 +125,11 @@ TCAS::pushPlanes()
 		XPLMSetDatavf(gHeadingRef, &plane->heading, i + 1, 1);
 		XPLMSetDatavi(gModeSRef, &plane->mode_S, i + 1, 1);
 		XPLMSetDatab(gFlightRef, plane->name.bytes, (i + 1) * 8, 8);
+		XPLMSetDatab(gICAOType, plane->icaoType.bytes, (i + 1) * 8, 8);
+		XPLMSetDatavi(gWeightOnWheels, &plane->wow, i + 1, 1);
+		if (gSSRMode)
+		{
+			XPLMSetDatavi(gSSRMode, &plane->ssrMode, i + 1, 1);
+		}
 	}
 }
